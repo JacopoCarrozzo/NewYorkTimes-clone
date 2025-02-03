@@ -6,11 +6,13 @@ import Details from './components/details.tsx';
 
 const App = () => {
   return (
-    <Routes>
-      <Route path='/login' element={<Login />} />
-      <Route path='/' element={<Main />} />
-      <Route path='/details' element={<Details />} />
-    </Routes>
+    <>
+      <Routes>
+        <Route path="/NewYorkTimes-clone/" element={<Main />} />
+        <Route path="/NewYorkTimes-clone/login" element={<Login />} />
+        <Route path="/NewYorkTimes-clone/details" element={<Details />} />
+      </Routes>
+    </>
   );
 };
 
