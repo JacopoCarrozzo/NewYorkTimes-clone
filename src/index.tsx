@@ -9,8 +9,8 @@ const rootElement = document.getElementById('root') as HTMLElement;
 const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-    <App />
+    <BrowserRouter basename="/NewYorkTimes-clone">
+      <App />
     </BrowserRouter>
   </React.StrictMode>
 );
