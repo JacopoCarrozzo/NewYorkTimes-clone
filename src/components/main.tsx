@@ -13,6 +13,9 @@ const Main = () => {
     const [menu, setMenu] = useState('world'); 
     const [search, setSearch] = useState ('')
 
+    const searchRef = useRef<HTMLHeadingElement>(null);
+
+
     
     const getNews = async () => {
         try {

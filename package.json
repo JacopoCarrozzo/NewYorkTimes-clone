@@ -1,7 +1,8 @@
 {
   "name": "nyt-clone",
   "version": "0.1.0",
-  "private": true,
+  "homepage": "https://JacopoLoco.github.io/NewYorkTimes-clone",
+  "private": false,
   "dependencies": {
     "cra-template": "1.2.0",
     "firebase": "^11.2.0",
@@ -17,7 +18,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -40,6 +43,7 @@
   "devDependencies": {
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
+    "gh-pages": "^6.3.0",
     "tailwindcss": "^3.4.17"
   }
 }
