@@ -18,7 +18,8 @@ interface MenuProp {
 
 const Navbar = ({ setMenu, setSearch, searchRef }: MenuProp) => {
   const [searchIcon, setSearchIcon] = useState(false);
-  const [sideMenu, setSideMenu] = useState(false)
+  const [sideMenu, setSideMenu] = useState(false);
+  const [mobileMenu, setMobileMenu] = useState(false);
 
   const navigate = useNavigate()
 
@@ -50,7 +51,7 @@ const Navbar = ({ setMenu, setSearch, searchRef }: MenuProp) => {
     <>
       <ToastContainer autoClose={3000}/>
     
-      <div className='w-full bg-white shadow-md'>
+      <div className='w-full bg-white shadow-md hidden lg:block'>
 
       {/* Navbar superiore */}
       <div className='flex items-center justify-between py-3 px-4 relative'>
@@ -80,7 +81,7 @@ const Navbar = ({ setMenu, setSearch, searchRef }: MenuProp) => {
           </div>}
 
           <div className='flex items-center relative'>
-            <img src={lens} onClick={() => setSearchIcon(!searchIcon)} className='w-5 h-5 cursor-pointer' alt="Search"/>
+            <img src={lens} onClick={() => setSearchIcon(!searchIcon)} className='w-5 h-5 cursor-pointer hidden lg:block' alt="Search"/>
             {searchIcon && (<input onChange={(e) => setSearch(e.target.value)} placeholder='SEARCH' className='ml-2 w-40 md:w-64 border border-black rounded-md p-2 text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300'/>)}
             {searchIcon && <button  onClick={() => searchRef?.current?.scrollIntoView({ behavior: "smooth" })} 
             className="bg-gray-200 text-gray-600 text-xs font-medium px-3 py-3 h-full rounded-lg border-black ml-2">GO</button>}
@@ -114,8 +115,8 @@ const Navbar = ({ setMenu, setSearch, searchRef }: MenuProp) => {
       <div className='flex items-center justify-between px-4 mt-2'>
 
         {/* Data e "Today's Paper" sotto */}
-        <div className='text-left'>
-          <h1 className='font-bold text-xs'>{moment(new Date()).format("DD-MM-YYYY")}</h1>
+        <div className='text-left hidden sm:block'>
+          <h1 className='font-bold text-xs'>{moment(new Date()).format("dddd, MMMM D, YYYY")}</h1>
           <h1 className='text-gray-500 text-xs cursor-pointer'>Il giornale di oggi</h1>
         </div>
 
@@ -129,7 +130,7 @@ const Navbar = ({ setMenu, setSearch, searchRef }: MenuProp) => {
       </div>
 
       {/* Menu orizzontale - Mostrato solo su desktop */}
-      <div className='hidden md:block mt-3'>
+      <div className='block mt-3'>
         <hr className='border-t border-gray-300'/>
         <div className="flex flex-wrap justify-center gap-4 text-sm mt-3 md:gap-4 md:text-xs md:flex">
           {Object.keys(categories).map((cat, index) => (
@@ -146,22 +147,70 @@ const Navbar = ({ setMenu, setSearch, searchRef }: MenuProp) => {
         </div>
 
         <hr className='border-t border-gray-300 mt-2'/>
-        <hr className='border-t border-gray-300 mt-1'/>
       </div>
 
-      {/* Menu Mobile */}
-      <div className='md:hidden bg-gray-100 p-4 mt-2 rounded-lg shadow-lg'>
-        <h1 className='cursor-pointer'>NOI</h1>
-        <h1 className='cursor-pointer'>Mondo</h1>
-        <h1 className='cursor-pointer'>Attività commerciale</h1>
-        <h1 className='cursor-pointer'>Arti</h1>
-        <h1 className='cursor-pointer'>Stile di vita</h1>
-        <h1 className='cursor-pointer'>Opinione</h1>
-        <h1 className='cursor-pointer'>Cucina</h1>
-        <h1 className='cursor-pointer'>L'Atletico</h1>
-      </div>
       
+
     </div>
+
+    <div className="w-full bg-white shadow-md top-0 left-0 z-50 sm:block md:block lg:hidden">
+        <div className="flex items-center justify-between py-3 px-4 relative">
+          {/* Menu & Search */}
+          <div className="flex items-center gap-4 flex-1">
+            {/* Icona menu mobile */}
+            <img
+              src={menuIcon}
+              className="w-6 h-6 cursor-pointer"
+              onClick={() => setMobileMenu(!mobileMenu)}
+              alt="Menu"
+            />
+
+            {/* MENU MOBILE */}
+            {mobileMenu && (
+    <div onMouseLeave={()=> setMobileMenu(false)} className="fixed inset-0 bg-white shadow-lg p-5 flex flex-col z-50 sm:w-full sm:h-auto sm:top-auto sm:left-auto sm:p-3 sm:gap-1 sm:max-w-md sm:mx-auto overflow-y-auto">
+    <h1 onClick={() => setMenu('Home')} className="mt-2 px-3 py-2 rounded-md hover:bg-gray-100 cursor-pointer transition-colors">Home Page</h1>
+    <h1 onClick={() => setMenu('world')} className="mt-2 px-3 py-2 rounded-md hover:bg-gray-100 cursor-pointer transition-colors">World</h1>
+    <h1 onClick={() => setMenu('business')} className="mt-2 px-3 py-2 rounded-md hover:bg-gray-100 cursor-pointer transition-colors">Business</h1>
+    <h1 onClick={() => setMenu('us')} className="mt-2 px-3 py-2 rounded-md hover:bg-gray-100 cursor-pointer transition-colors">U.S. Politics</h1>
+    <h1 onClick={() => setMenu('us')} className="mt-2 px-3 py-2 rounded-md hover:bg-gray-100 cursor-pointer transition-colors">U.S. News</h1>
+    <h1 onClick={() => setMenu('sports')} className="mt-2 px-3 py-2 rounded-md hover:bg-gray-100 cursor-pointer transition-colors">Sports</h1>
+    <h1 onClick={() => setMenu('health')} className="mt-2 px-3 py-2 rounded-md hover:bg-gray-100 cursor-pointer transition-colors">Health</h1>
+    <h1 onClick={() => setMenu('opinion')} className="mt-2 px-3 py-2 rounded-md hover:bg-gray-100 cursor-pointer transition-colors">Opinion</h1>
+    <h1 onClick={() => setMenu('science')} className="mt-2 px-3 py-2 rounded-md hover:bg-gray-100 cursor-pointer transition-colors">Science</h1>
+    <h1 onClick={() => setMenu('technology')} className="mt-2 px-3 py-2 rounded-md hover:bg-gray-100 cursor-pointer transition-colors">Tech</h1>
+    <h1 onClick={() => setMenu('arts')} className="mt-2 px-3 py-2 rounded-md hover:bg-gray-100 cursor-pointer transition-colors">Arts</h1>
+    <h1 onClick={() => setMenu('books')} className="mt-2 px-3 py-2 rounded-md hover:bg-gray-100 cursor-pointer transition-colors">Book Review</h1>
+    <h1 onClick={() => setMenu('style')} className="mt-2 px-3 py-2 rounded-md hover:bg-gray-100 cursor-pointer transition-colors">Style</h1>
+    <h1 onClick={() => setMenu('food')} className="mt-2 px-3 py-2 rounded-md hover:bg-gray-100 cursor-pointer transition-colors">Food</h1>
+    <h1 onClick={() => setMenu('travel')} className="mt-2 px-3 py-2 rounded-md hover:bg-gray-100 cursor-pointer transition-colors">Travel</h1>
+    <h1 onClick={() => setMenu('magazine')} className="mt-2 px-3 py-2 rounded-md hover:bg-gray-100 cursor-pointer transition-colors">Magazine</h1>
+  </div>
+)}   
+          </div>
+
+          {/* Logo - visibile sempre */}
+          <div className="flex-1 flex justify-center">
+            <img src={TheNewYorkTimes} className="w-48 md:w-96 h-auto" alt="The New York Times Logo" />
+          </div>
+
+          {/* Login */}
+          <div className="flex-1 flex justify-end">
+            {auth?.currentUser?.displayName || auth?.currentUser?.email ? (
+              <button className="text-xs" onClick={logout}>
+                LOG OUT
+              </button>
+            ) : (
+              <Link to="/login">
+                <button className="text-xs bg-slate-500 px-4 py-1 text-white rounded-sm font-bold">LOGIN</button>
+              </Link>
+            )}
+          </div>
+        </div>
+        <div className="w-full p-2 text-sm font-sm border-t bg-white sm:block">
+        {moment(new Date()).format("dddd, MMMM D, YYYY")}
+        </div>
+      </div>
+
     </>
     
   );

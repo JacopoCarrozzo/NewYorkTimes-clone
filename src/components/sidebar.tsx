@@ -4,13 +4,14 @@ import { Link } from 'react-router-dom';
 interface NewsProps {
   news: any[];
   num: number;
+  className?: string;
 }
 
-const Sidebar = ({ news, num }: NewsProps) => {
+const Sidebar = ({ news, num, className }: NewsProps) => {
   const article = news[num];
 
   return (
-    <aside className="w-full md:w-4/12 border-l px-3 py-4 absolute md:static top-0 right-0 bg-white z-10">
+    <aside className={`w-full md:w-4/12 border-l px-3 py-4 absolute md:static top-0 right-0 bg-white z-10 ${className}`}>
       {article ? (
         <Link 
         to="/details" 

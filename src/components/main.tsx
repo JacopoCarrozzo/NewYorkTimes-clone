@@ -35,29 +35,29 @@ const Main = () => {
     return (
         <div>
             <Navbar searchRef={searchRef} setMenu={setMenu} setSearch={setSearch}/>
-            <div className="flex">
+            <div className=" flex flex-col md:flex-row">
                 <Home news={news} num={0}/>
-                <Sidebar news={news} num={5}/>
+                <Sidebar news={news} num={5} className="hidden md:block"/>
             </div>
             <hr/>
-            <div className="flex mt-3">
+            <div className="flex flex-col md:flex-row mt-3">
                 <Home news={news} num={1}/>
-                <Sidebar news={news} num={6}/>
+                <Sidebar news={news} num={6} className="hidden md:block"/>
             </div>
             <hr/>
-            <div className="flex mt-3">
+            <div className="flex flex-col md:flex-row mt-3">
                 <Home news={news} num={2}/>
-                <Sidebar news={news} num={7}/>
+                <Sidebar news={news} num={7} className="hidden md:block"/>
             </div>
             <hr/>
-            <div className="flex mt-3">
+            <div className="flex flex-col md:flex-row mt-3">
                 <Home news={news} num={3}/>
-                <Sidebar news={news} num={8}/>
+                <Sidebar news={news} num={8} className="hidden md:block"/>
             </div>
             <hr/>
             <div className="flex mt-3">
                 <Home news={news} num={4}/>
-                <Sidebar news={news} num={9}/>
+                <Sidebar news={news} num={9} className="hidden md:block"/>
             </div>
             <hr/>
             <News searchRef={searchRef} search={search} news={news}/>
