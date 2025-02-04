@@ -13,21 +13,20 @@ const Home = ({ news, num }: NewsProps) => {
         <div className="w-full sm:w-8/12 mx-auto p-4">
             {news.length === 0 ? (
                 <p>Caricamento in corso...</p>
-            ) : news[num] ? (
+            ) : news.length > num && news[num] ? (  // ✅ Controllo aggiuntivo per evitare errori di array fuori limite
                 <Link to="/details" state={{ data: news[num] }} className="block">
                     <div className="flex flex-col sm:flex-row items-center sm:items-start">
                         {/* Testo */}
                         <div className="sm:w-1/2 w-full text-center sm:text-left">
                             <h1 className="font-bold text-xl font-serif">{news[num].title}</h1>
                             <h2 className="font-serif text-sm mt-2">{news[num].abstract}</h2>
-                            <a
-                                href={news[num].url}
-                                target="_blank"
-                                rel="noopener noreferrer"
+                            <Link  // ✅ Cambiato da <span> a <Link> per garantire la navigazione corretta
+                                to="/details"
+                                state={{ data: news[num] }}
                                 className="text-blue-600 mt-2 inline-block"
                             >
                                 Leggi di più
-                            </a>
+                            </Link>
                         </div>
 
                         {/* Immagine */}

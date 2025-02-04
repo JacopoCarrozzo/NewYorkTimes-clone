@@ -8,7 +8,8 @@ const Details = () => {
     const location = useLocation();
     const article = location?.state?.data;
 
-    console.log("Dati articolo:", article);
+    console.log("Dati ricevuti in Details:", article);
+
 
     return (
         <>
