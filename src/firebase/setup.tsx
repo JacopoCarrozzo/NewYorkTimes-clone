@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, GithubAuthProvider, FacebookAuthProvider } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, GithubAuthProvider, FacebookAuthProvider, signOut, signInWithPopup } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCctaJR7v9TO4-LTfeC6DwonPfIhVqZuPg",
@@ -19,5 +19,17 @@ export const facebookProvider = new FacebookAuthProvider();
 facebookProvider.setCustomParameters({
   display: "popup",
 });
+
+export const loginWithFacebook = async () => {
+  try {
+    await signOut(auth); // Evita richieste multiple
+    const result = await signInWithPopup(auth, facebookProvider);
+    console.log("User Info:", result.user);
+    return result.user;
+  } catch (error) {
+    console.error("Errore login con Facebook:", error);
+    throw error;
+  }
+};
 
 export { app };
