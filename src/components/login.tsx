@@ -3,7 +3,7 @@ import facebook from "../images/facebook.png"
 import google from "../images/google.png"
 import github from "../images/github.png"
 import TheNewYorkTimes from "../images/TheNewYorkTimes.png"
-import { createUserWithEmailAndPassword, signInWithPopup  } from 'firebase/auth'
+import { createUserWithEmailAndPassword, signInWithPopup, signInWithRedirect, fetchSignInMethodsForEmail  } from 'firebase/auth'
 import { auth, facebookProvider, gitProvider, googleProvider } from "../firebase/setup.tsx";  
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -42,19 +42,38 @@ const Login = () => {
     } 
   }
 
-  const facebookLogin = async() =>{
+  const facebookLogin = async () => {
     try {
-      await signInWithPopup(auth,facebookProvider)
-      toast.success("LoggedIn successfully")
-      setTimeout(()=>{
-        navigate('/')
-      },2000)
-    }catch(err){
-      console.error(err)
-      toast.error((err as Error).message || "An error occurred");
-    } 
-    
-  }
+      const result = await signInWithPopup(auth, facebookProvider);
+      toast.success("Logged in successfully");
+      setTimeout(() => {
+        navigate('/');
+      }, 2000);
+    } catch (err: any) {
+      if (err.code === "auth/popup-closed-by-user") {
+        console.warn("Popup chiuso, provo con il redirect...");
+        try {
+          await signInWithRedirect(auth, facebookProvider);
+        } catch (redirectError) {
+          console.error("Errore nel redirect:", redirectError);
+        }
+      } else if (err.code === "auth/account-exists-with-different-credential") {
+        const email = err.customData?.email;
+        if (email) {
+          // Utilizza la funzione importata direttamente
+          const signInMethods = await fetchSignInMethodsForEmail(auth, email);
+          if (signInMethods.includes("google.com")) {
+            toast.warn("Hai già un account con Google. Accedi con Google per collegare gli account.");
+          } else {
+            toast.error("Esiste già un account con questa email. Usa un altro metodo.");
+          }
+        }
+      } else {
+        console.error(err);
+        toast.error(err.message || "An error occurred");
+      }
+    }
+  };
 
   const gitLogin = async() =>{
     try {
