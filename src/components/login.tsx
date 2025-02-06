@@ -60,19 +60,13 @@ const Login = () => {
       } else if (err.code === "auth/account-exists-with-different-credential") {
         const email = err.customData?.email;
         if (email) {
-          // Utilizza la funzione importata direttamente
-          const signInMethods = await fetchSignInMethodsForEmail(auth, email);
-          if (signInMethods.includes("google.com")) {
-            toast.warn("Hai già un account con Google. Accedi con Google per collegare gli account.");
-          } else {
-            toast.error("Esiste già un account con questa email. Usa un altro metodo.");
-          }
+          toast.warn("Esiste già un account con un altro metodo. Accedi con Facebook per continuare.");
         }
       } else {
         console.error(err);
         toast.error(err.message || "An error occurred");
       }
-    }
+  }
   };
 
   const gitLogin = async() =>{
