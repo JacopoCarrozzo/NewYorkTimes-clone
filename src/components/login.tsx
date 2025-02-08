@@ -64,36 +64,16 @@ const Login = () => {
   
 
   const gitLogin = async () => {
-    if (isLoading) return; // Evita più richieste in parallelo
-    setIsLoading(true);
-  
     try {
-      if (window.innerWidth < 768) {
-        await signInWithRedirect(auth, gitProvider);
-      } else {
-        await signInWithPopup(auth, gitProvider);
-      }
-      toast.success("Logged in successfully");
-      setTimeout(() => {
-        navigate('/');
-      }, 2000);
+      await signInWithRedirect(auth, gitProvider);
     } catch (err: any) {
       console.error("Errore:", err);
-  
-      if (err.code === "auth/popup-blocked") {
-        console.warn("Popup bloccato, provo con il redirect...");
-        await signInWithRedirect(auth, gitProvider);
-      } else if (err.code === "auth/account-exists-with-different-credential") {
-        toast.warn("Esiste già un account con un altro metodo. Accedi con il provider corretto.");
-      } else {
-        toast.error(err.message || "An error occurred");
-      }
-    } finally {
-      setIsLoading(false); // Reset dello stato di caricamento
+      toast.error(err.message || "An error occurred");
     }
   };
-
   
+
+
   return (
     <>
       <ToastContainer autoClose={3000}/>
