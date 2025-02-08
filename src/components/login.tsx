@@ -45,6 +45,7 @@ const Login = () => {
 
   const facebookLogin = async () => {
     try {
+      await auth.signOut();
       await signInWithRedirect(auth, facebookProvider);
     } catch (err: any) {
       console.error("Errore:", err);
@@ -56,6 +57,7 @@ const Login = () => {
 
   const gitLogin = async () => {
     try {
+      await auth.signOut();
       await signInWithRedirect(auth, gitProvider);
     } catch (err: any) {
       console.error("Errore:", err);
