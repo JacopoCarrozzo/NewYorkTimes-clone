@@ -10,7 +10,6 @@ import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { useNavigate, Link } from 'react-router-dom'
 
-const navigate = useNavigate();
 
 useEffect(() => {
   const checkRedirect = async () => {
