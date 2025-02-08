@@ -73,10 +73,6 @@ const Login = () => {
       toast.error(err.message || "An error occurred");
     }
   };
-  
-  
-  
-  
 
   const gitLogin = async () => {
     try {
@@ -91,8 +87,6 @@ const Login = () => {
     }
   };
   
-
-
   return (
     <>
       <ToastContainer autoClose={3000}/>
