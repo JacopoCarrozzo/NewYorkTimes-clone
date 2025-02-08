@@ -11,29 +11,30 @@ import 'react-toastify/dist/ReactToastify.css'
 import { useNavigate, Link } from 'react-router-dom'
 
 
-useEffect(() => {
-  const checkRedirect = async () => {
-    try {
-      const result = await getRedirectResult(auth);
-      if (result) {
-        toast.success(`Logged in with ${result.providerId}`);
-        navigate("/");
-      }
-    } catch (err: any) {
-      console.error("Errore nel redirect:", err);
-      toast.error(err.message || "An error occurred");
-    }
-  };
-
-  checkRedirect();
-}, []);
-
 const Login = () => {
 
   const navigate = useNavigate()
   const [email,setEmail] = useState("")
   const [password, setPassword] = useState("")
 
+  useEffect(() => {
+    const checkRedirect = async () => {
+      try {
+        const result = await getRedirectResult(auth);
+        if (result) {
+          toast.success(`Logged in with ${result.providerId}`);
+          navigate("/");
+        }
+      } catch (err: any) {
+        console.error("Errore nel redirect:", err);
+        toast.error(err.message || "An error occurred");
+      }
+    };
+  
+    checkRedirect();
+  }, []);
+
+  
   const emailLogin = async() =>{
     try{
       await createUserWithEmailAndPassword(auth,email,password)
