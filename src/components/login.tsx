@@ -1,15 +1,33 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import facebook from "../images/facebook.png"
 import google from "../images/google.png"
 import github from "../images/github.png"
 import TheNewYorkTimes from "../images/TheNewYorkTimes.png"
 import backarrow from '../images/backarrow.png'
-import { createUserWithEmailAndPassword, signInWithPopup, signInWithRedirect,} from 'firebase/auth'
+import { createUserWithEmailAndPassword, signInWithPopup, signInWithRedirect, getRedirectResult} from 'firebase/auth'
 import { auth, facebookProvider, gitProvider, googleProvider } from "../firebase/setup.tsx";  
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { useNavigate, Link } from 'react-router-dom'
 
+const navigate = useNavigate();
+
+useEffect(() => {
+  const checkRedirect = async () => {
+    try {
+      const result = await getRedirectResult(auth);
+      if (result) {
+        toast.success(`Logged in with ${result.providerId}`);
+        navigate("/");
+      }
+    } catch (err: any) {
+      console.error("Errore nel redirect:", err);
+      toast.error(err.message || "An error occurred");
+    }
+  };
+
+  checkRedirect();
+}, []);
 
 const Login = () => {
 
@@ -45,6 +63,9 @@ const Login = () => {
 
   const facebookLogin = async () => {
     try {
+      localStorage.clear();
+      sessionStorage.clear();
+      await auth.signOut();
       await auth.signOut();
       await signInWithRedirect(auth, facebookProvider);
     } catch (err: any) {
@@ -54,9 +75,14 @@ const Login = () => {
   };
   
   
+  
+  
 
   const gitLogin = async () => {
     try {
+      localStorage.clear();
+      sessionStorage.clear();
+      await auth.signOut();
       await auth.signOut();
       await signInWithRedirect(auth, gitProvider);
     } catch (err: any) {
