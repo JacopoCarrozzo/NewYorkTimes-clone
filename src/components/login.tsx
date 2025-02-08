@@ -16,7 +16,6 @@ const Login = () => {
   const navigate = useNavigate()
   const [email,setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [isLoading, setIsLoading] = useState(false);
 
   const emailLogin = async() =>{
     try{
@@ -46,21 +45,13 @@ const Login = () => {
 
   const facebookLogin = async () => {
     try {
-      await signInWithPopup(auth, facebookProvider);
-      toast.success("Logged in successfully");
-      setTimeout(() => {
-        navigate('/');
-      }, 2000);
+      await signInWithRedirect(auth, facebookProvider);
     } catch (err: any) {
       console.error("Errore:", err);
-      if (err.code === "auth/popup-blocked") {
-        console.warn("Popup bloccato, provo con il redirect...");
-        await signInWithRedirect(auth, facebookProvider);
-      } else {
-        toast.error(err.message || "An error occurred");
-      }
+      toast.error(err.message || "An error occurred");
     }
   };
+  
   
 
   const gitLogin = async () => {
