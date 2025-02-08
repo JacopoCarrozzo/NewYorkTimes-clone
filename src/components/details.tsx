@@ -1,28 +1,35 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import moment from 'moment';
 import TheNewYorkTimes from "../images/TheNewYorkTimes.png";
 import Footer from '../components/footer.tsx';
+import backarrow from '../images/backarrow.png'
 
 const Details = () => {
     const location = useLocation();
     const article = location?.state?.data;
 
-    console.log("Dati ricevuti in Details:", article);
-
 
     return (
         <>
             {/* Header con logo */}
-            <div className='p-4 shadow-lg flex justify-center sm:justify-start'>
+            <div className='p-4 shadow-lg flex justify-center items-center'>
                 <img src={TheNewYorkTimes} className='w-40 sm:w-52' alt="NYT Logo" />
             </div>
+
 
             {/* Contenuto principale */}
             <div className="w-full sm:w-8/12 mx-auto p-4">
 
+            <Link to="/">
+            <div className='flex items-center justify-start relative'>
+                <img src={backarrow} className='w-5 h-5 cursor-pointer'/>
+                <h1 className="rounded-md cursor-pointer transition-colors font-bold ">Torna alla home</h1>
+            </div>
+            </Link>
+
                 {/* Titolo e descrizione */}
-                <div className='sm:w-9/12 mx-auto text-center sm:text-left'>
+                <div className='sm:w-9/12 mx-auto text-center sm:text-left mt-6'>
                     <h1 className="font-bold text-2xl">{article?.title || "Titolo non disponibile"}</h1>
                     
                 </div>

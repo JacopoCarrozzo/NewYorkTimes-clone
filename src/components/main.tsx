@@ -21,7 +21,6 @@ const Main = () => {
         try {
             const response = await fetch(`https://api.nytimes.com/svc/topstories/v2/${menu}.json?api-key=${API_KEY}`);
             const json = await response.json();
-            console.log(`Dati ricevuti per la categoria ${menu}:`, json); 
             setNews(json.results || []); 
         } catch (err) {
             console.error("Errore nel recupero delle news:", err);

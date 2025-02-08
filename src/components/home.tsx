@@ -7,7 +7,6 @@ interface NewsProps {
 }
 
 const Home = ({ news, num }: NewsProps) => {
-    console.log(`Rendering article index: ${num}`, news[num]); 
 
     return (
         <div className="w-full sm:w-8/12 mx-auto p-4">

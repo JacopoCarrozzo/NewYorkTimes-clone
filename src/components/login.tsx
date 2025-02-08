@@ -3,11 +3,12 @@ import facebook from "../images/facebook.png"
 import google from "../images/google.png"
 import github from "../images/github.png"
 import TheNewYorkTimes from "../images/TheNewYorkTimes.png"
-import { createUserWithEmailAndPassword, signInWithPopup, signInWithRedirect, fetchSignInMethodsForEmail  } from 'firebase/auth'
+import backarrow from '../images/backarrow.png'
+import { createUserWithEmailAndPassword, signInWithPopup, signInWithRedirect,} from 'firebase/auth'
 import { auth, facebookProvider, gitProvider, googleProvider } from "../firebase/setup.tsx";  
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 
 
 const Login = () => {
@@ -15,6 +16,7 @@ const Login = () => {
   const navigate = useNavigate()
   const [email,setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [isLoading, setIsLoading] = useState(false);
 
   const emailLogin = async() =>{
     try{
@@ -44,45 +46,54 @@ const Login = () => {
 
   const facebookLogin = async () => {
     try {
-      const result = await signInWithPopup(auth, facebookProvider);
+      await signInWithPopup(auth, facebookProvider);
       toast.success("Logged in successfully");
       setTimeout(() => {
         navigate('/');
       }, 2000);
     } catch (err: any) {
-      if (err.code === "auth/popup-closed-by-user") {
-        console.warn("Popup chiuso, provo con il redirect...");
-        try {
-          await signInWithRedirect(auth, facebookProvider);
-        } catch (redirectError) {
-          console.error("Errore nel redirect:", redirectError);
-        }
-      } else if (err.code === "auth/account-exists-with-different-credential") {
-        const email = err.customData?.email;
-        if (email) {
-          toast.warn("Esiste già un account con un altro metodo. Accedi con Facebook per continuare.");
-        }
+      console.error("Errore:", err);
+      if (err.code === "auth/popup-blocked") {
+        console.warn("Popup bloccato, provo con il redirect...");
+        await signInWithRedirect(auth, facebookProvider);
       } else {
-        console.error(err);
         toast.error(err.message || "An error occurred");
       }
-  }
+    }
+  };
+  
+
+  const gitLogin = async () => {
+    if (isLoading) return; // Evita più richieste in parallelo
+    setIsLoading(true);
+  
+    try {
+      if (window.innerWidth < 768) {
+        await signInWithRedirect(auth, gitProvider);
+      } else {
+        await signInWithPopup(auth, gitProvider);
+      }
+      toast.success("Logged in successfully");
+      setTimeout(() => {
+        navigate('/');
+      }, 2000);
+    } catch (err: any) {
+      console.error("Errore:", err);
+  
+      if (err.code === "auth/popup-blocked") {
+        console.warn("Popup bloccato, provo con il redirect...");
+        await signInWithRedirect(auth, gitProvider);
+      } else if (err.code === "auth/account-exists-with-different-credential") {
+        toast.warn("Esiste già un account con un altro metodo. Accedi con il provider corretto.");
+      } else {
+        toast.error(err.message || "An error occurred");
+      }
+    } finally {
+      setIsLoading(false); // Reset dello stato di caricamento
+    }
   };
 
-  const gitLogin = async() =>{
-    try {
-      await signInWithPopup(auth,gitProvider)
-      toast.success("LoggedIn successfully")
-      setTimeout(()=>{
-        navigate('/')
-      },2000)
-    }catch(err){
-      console.error(err)
-      toast.error((err as Error).message || "An error occurred");
-    } 
-    
-  }
-
+  
   return (
     <>
       <ToastContainer autoClose={3000}/>
@@ -91,8 +102,19 @@ const Login = () => {
         <img src={TheNewYorkTimes} className="w-52" alt="The New York Times Logo" />
       </div>
 
+      <Link to="/">
+        <div className='flex items-center justify-start bg-gray-100'>
+          <div className='ml-[33%] mt-4 flex items-center'>
+           <img src={backarrow} className='w-5 h-5 cursor-pointer' />
+           <h1 className="rounded-md cursor-pointer transition-colors font-bold">Torna alla home</h1>
+           </div>
+       </div>
+      </Link>
+
+
+
       <div className="flex justify-center bg-gray-100 py-10">
-      <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
+      <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full mt-[-23px]">
         <h1 className="text-gray-700 font-medium text-3xl text-center">
           Log in or create an account
         </h1>

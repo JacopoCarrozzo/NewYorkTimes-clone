@@ -20,51 +20,30 @@ const Footer = (props:menuProp) => {
         <div className="flex flex-wrap justify-between p-4 text-center sm:text-left">
           <div className="w-full sm:w-auto mt-4 sm:mt-0">
             <h1 className="font-bold text-sm">NEWS</h1>
-            <h1 className='cursor-pointer' onClick={() => props.setMenu && props.setMenu('home')}>Home Page</h1>
-            <h1 className='cursor-pointer'onClick={() => props.setMenu && props.setMenu('World')}>World</h1>
-            <h1 className='cursor-pointer'onClick={() => props.setMenu && props.setMenu('health')}>Coronavirus</h1>
-            <h1 className='cursor-pointer'onClick={() => props.setMenu && props.setMenu('us')}>U.S. World</h1>
-            <h1 className='cursor-pointer'onClick={() => props.setMenu && props.setMenu('politics')}>U.S. Politics</h1>
-          </div>
-          <div className="w-full sm:w-auto mt-4 sm:mt-0">
-            <h1 className="font-bold text-sm">OPINION</h1>
-            <h1 className='cursor-pointer'onClick={() => props.setMenu && props.setMenu('opinion')}>Today's Opinion</h1>
-            <h1 className='cursor-pointer'onClick={() => props.setMenu && props.setMenu('editorials')}>Editorials</h1>
-            <h1 className='cursor-pointer'onClick={() => props.setMenu && props.setMenu('opinion-video')}>Opinion video</h1>
-            <h1 className='cursor-pointer'onClick={() => props.setMenu && props.setMenu('letters')}>Letters</h1>
-            <h1 className='cursor-pointer'onClick={() => props.setMenu && props.setMenu('columnists')}>Columnists</h1>
+            <h1 className='cursor-pointer' onClick={() => {props.setMenu && props.setMenu('home');window.scrollTo({ top: 0, behavior: 'smooth' });}}>Home</h1>
+            <h1 className='cursor-pointer' onClick={() => {props.setMenu && props.setMenu('World');window.scrollTo({ top: 0, behavior: 'smooth' });}}>World</h1>
+            <h1 className='cursor-pointer' onClick={() => {props.setMenu && props.setMenu('health');window.scrollTo({ top: 0, behavior: 'smooth' });}}>Coronavirus</h1>
+            <h1 className='cursor-pointer' onClick={() => {props.setMenu && props.setMenu('us');window.scrollTo({ top: 0, behavior: 'smooth' });}}>U.S. World</h1>
+            <h1 className='cursor-pointer' onClick={() => {props.setMenu && props.setMenu('politics');window.scrollTo({ top: 0, behavior: 'smooth' });}}>U.S. Politics</h1>
           </div>
           <div className="w-full sm:w-auto mt-4 sm:mt-0">
             <h1 className="font-bold text-sm">ARTS</h1>
-            <h1 className='cursor-pointer'onClick={() => props.setMenu && props.setMenu('movies')}>Movies</h1>
-            <h1 className='cursor-pointer'onClick={() => props.setMenu && props.setMenu('books')}>Books</h1>
-            <h1 className='cursor-pointer'onClick={() => props.setMenu && props.setMenu('arts')}>Arts</h1>
-            <h1 className='cursor-pointer'onClick={() => props.setMenu && props.setMenu('music')}>Music</h1>
-            <h1 className='cursor-pointer'onClick={() => props.setMenu && props.setMenu('dance')}>Dance</h1>
+            <h1 className='cursor-pointer' onClick={() => {props.setMenu && props.setMenu('movies');window.scrollTo({ top: 0, behavior: 'smooth' });}}>Movies</h1>
+            <h1 className='cursor-pointer' onClick={() => {props.setMenu && props.setMenu('books');window.scrollTo({ top: 0, behavior: 'smooth' });}}>Books</h1>
+            <h1 className='cursor-pointer' onClick={() => {props.setMenu && props.setMenu('arts');window.scrollTo({ top: 0, behavior: 'smooth' });}}>Arts</h1>
           </div>
           <div className="w-full sm:w-auto mt-4 sm:mt-0">
             <h1 className="font-bold text-sm">LIVING</h1>
-            <h1 className='cursor-pointer'onClick={() => props.setMenu && props.setMenu('food')}>Food</h1>
-            <h1 className='cursor-pointer'onClick={() => props.setMenu && props.setMenu('wellness')}>Wellness</h1>
-            <h1 className='cursor-pointer'onClick={() => props.setMenu && props.setMenu('travel')}>Travel</h1>
-            <h1 className='cursor-pointer'onClick={() => props.setMenu && props.setMenu('Love')}>Love</h1>
-            <h1 className='cursor-pointer'onClick={() => props.setMenu && props.setMenu('jobs')}>Jobs</h1>
-          </div>
-          <div className="w-full sm:w-auto mt-4 sm:mt-0">
-            <h1 className="font-bold text-sm">MORE</h1>
-            <h1 className='cursor-pointer'onClick={() => props.setMenu && props.setMenu('food')}>Food</h1>
-            <h1 className='cursor-pointer'onClick={() => props.setMenu && props.setMenu('cooking')}>Cooking</h1>
-            <h1 className='cursor-pointer'onClick={() => props.setMenu && props.setMenu('graphics')}>Graphics</h1>
-            <h1 className='cursor-pointer'onClick={() => props.setMenu && props.setMenu('podcasts')}>Podcasts</h1>
-            <h1 className='cursor-pointer'onClick={() => props.setMenu && props.setMenu('video')}>Video</h1>
-            <h1 className='cursor-pointer'onClick={() => props.setMenu && props.setMenu('articles')}>Articles</h1>
+            <h1 className='cursor-pointer' onClick={() => {props.setMenu && props.setMenu('food');window.scrollTo({ top: 0, behavior: 'smooth' });}}>Food</h1>
+            <h1 className='cursor-pointer' onClick={() => {props.setMenu && props.setMenu('travel');window.scrollTo({ top: 0, behavior: 'smooth' });}}>Travel</h1>
+            <h1 className='cursor-pointer' onClick={() => {props.setMenu && props.setMenu('jobs');window.scrollTo({ top: 0, behavior: 'smooth' });}}>Jobs</h1>
           </div>
         </div>
 
         {/* Copyright con testo responsivo */}
         <h1 className="mt-5 text-xs text-center text-gray-600 leading-5">
-          © 2025 La Società del New York Times |  
-          <span className="block sm:inline"> Contattaci | Accessibilità | Lavora con noi | Pubblicità</span>
+        © 2025 The New York Times Company |  
+          <span className="block sm:inline"> Contact Us | Accessibility | Work with us | Advertising</span>
         </h1>
       </div>
     </div>
