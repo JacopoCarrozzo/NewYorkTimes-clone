@@ -1,8 +1,8 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom'; 
-import Login from './components/login.tsx';
-import Main from './components/main.tsx';
-import Details from './components/details.tsx';
+import Login from './components/login';
+import Main from './components/main';
+import Details from './components/details';
 import { Helmet } from 'react-helmet';
 import logo from './images/logo.png'
 

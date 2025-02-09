@@ -1,12 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-interface NewsProps {
-    news: any[];
-    num: number; 
-}
-
-const Home = ({ news, num }: NewsProps) => {
+const Home = ({ news, num }) => {
 
     return (
         <div className="w-full sm:w-8/12 mx-auto p-4">
@@ -24,7 +19,7 @@ const Home = ({ news, num }: NewsProps) => {
                                 state={{ data: news[num] }}
                                 className="text-blue-600 mt-2 inline-block"
                             >
-                                Leggi di più
+                                Read more
                             </Link>
                         </div>
 
