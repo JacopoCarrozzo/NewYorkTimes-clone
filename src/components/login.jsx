@@ -1,37 +1,45 @@
-import React, { useEffect, useState } from 'react';
+/* global FB */
+import React, { useEffect, useState } from "react";
 import facebook from "../images/facebook.png";
 import google from "../images/google.png";
 import github from "../images/github.png";
 import TheNewYorkTimes from "../images/TheNewYorkTimes.png";
-import backarrow from '../images/backarrow.png';
-import { createUserWithEmailAndPassword, signInWithPopup, signInWithRedirect, getRedirectResult } from 'firebase/auth';
-import { auth, facebookProvider, gitProvider, googleProvider } from "../firebase/setup.jsx";  
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate, Link } from 'react-router-dom';
+import backarrow from "../images/backarrow.png";
+import {
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
+} from "firebase/auth";
+import { auth, facebookProvider, gitProvider, googleProvider } from "../firebase/setup.jsx";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate, Link } from "react-router-dom";
 
+// Funzione per caricare l'SDK di Facebook
 const loadFacebookSDK = () => {
   return new Promise((resolve) => {
-    if (document.getElementById('facebook-jssdk')) {
+    if (document.getElementById("facebook-jssdk")) {
       resolve();
       return;
     }
-    
-    window.fbAsyncInit = function () {
-      FB.init({
-        appId: "{your-app-id}", // Sostituisci con il tuo App ID di Facebook
-        cookie: true,
-        xfbml: true,
-        version: "{api-version}", // Esempio: 'v18.0'
-      });
 
-      FB.AppEvents.logPageView();
+    window.fbAsyncInit = function () {
+      if (typeof FB !== "undefined") {
+        FB.init({
+          appId: "{your-app-id}", // 🔹 Sostituisci con il tuo App ID di Facebook
+          cookie: true,
+          xfbml: true,
+          version: "{api-version}", // 🔹 Esempio: 'v18.0'
+        });
+
+        FB.AppEvents.logPageView();
+      }
       resolve();
     };
 
     let js,
       fjs = document.getElementsByTagName("script")[0];
-    if (document.getElementById("facebook-jssdk")) return;
     js = document.createElement("script");
     js.id = "facebook-jssdk";
     js.src = "https://connect.facebook.net/en_US/sdk.js";
@@ -45,35 +53,8 @@ const Login = () => {
   const [password, setPassword] = useState("");
 
   useEffect(() => {
-    const loadFacebookSDK = () => {
-      return new Promise((resolve) => {
-        if (document.getElementById('facebook-jssdk')) {
-          resolve();
-          return;
-        }
-  
-        window.fbAsyncInit = function () {
-          FB.init({
-            appId: "{your-app-id}", // Sostituisci con il tuo App ID di Facebook
-            cookie: true,
-            xfbml: true,
-            version: "{api-version}", // Esempio: 'v18.0'
-          });
-  
-          FB.AppEvents.logPageView();
-          resolve();
-        };
-  
-        let js,
-          fjs = document.getElementsByTagName("script")[0];
-        if (document.getElementById("facebook-jssdk")) return;
-        js = document.createElement("script");
-        js.id = "facebook-jssdk";
-        js.src = "https://connect.facebook.net/en_US/sdk.js";
-        fjs.parentNode.insertBefore(js, fjs);
-      });
-    };
-  
+    loadFacebookSDK(); // 🔹 Carica l'SDK di Facebook
+
     const checkRedirect = async () => {
       try {
         const result = await getRedirectResult(auth);
@@ -90,26 +71,23 @@ const Login = () => {
         toast.error(err.message || "An error occurred");
       }
     };
-  
-    loadFacebookSDK(); // Carica Facebook SDK
-    checkRedirect(); // Controlla se c'è un redirect login attivo
-  }, [navigate]);
-  
-  
 
+    checkRedirect(); // 🔹 Controlla il login con redirect
+  }, [navigate]);
+
+  // Login con email e password
   const emailLogin = async () => {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
-      toast.success("LoggedIn successfully");
-      setTimeout(() => {
-        navigate('/');
-      }, 2000);
+      toast.success("Logged in successfully");
+      setTimeout(() => navigate("/"), 2000);
     } catch (err) {
       console.error(err);
       toast.error(err.message || "An error occurred");
     }
   };
 
+  // Login con Google
   const googleLogin = async () => {
     try {
       if (auth.currentUser) {
@@ -117,29 +95,33 @@ const Login = () => {
       }
       await signInWithPopup(auth, googleProvider);
       toast.success("Logged in successfully");
-      setTimeout(() => {
-        navigate('/');
-      }, 2000);
+      setTimeout(() => navigate("/"), 2000);
     } catch (err) {
       console.error(err);
       toast.error(err.message || "An error occurred");
-    } 
+    }
   };
 
+  // Login con Facebook
   const facebookLogin = async () => {
     try {
-      await loadFacebookSDK(); 
-  
-      FB.login((response) => {
-        if (response.authResponse) {
-          console.log("Facebook login successful", response);
-          toast.success("Logged in successfully!");
-          setTimeout(() => navigate('/'), 2000);
-        } else {
-          toast.error("Facebook login failed.");
-        }
-      }, { scope: "email,public_profile" });
-  
+      await loadFacebookSDK();
+      if (window.FB) {
+        window.FB.login(
+          (response) => {
+            if (response.authResponse) {
+              console.log("Facebook login successful", response);
+              toast.success("Logged in successfully!");
+              setTimeout(() => navigate("/"), 2000);
+            } else {
+              toast.error("Facebook login failed.");
+            }
+          },
+          { scope: "email,public_profile" }
+        );
+      } else {
+        toast.error("Facebook SDK not loaded.");
+      }
     } catch (err) {
       console.error("Errore:", err);
       toast.error(err.message || "An error occurred");
