@@ -24,26 +24,13 @@ const loadFacebookSDK = () => {
       return;
     }
 
-    window.fbAsyncInit = function () {
-      if (typeof FB !== "undefined") {
-        FB.init({
-          appId: "{your-app-id}", // 🔹 Sostituisci con il tuo App ID di Facebook
-          cookie: true,
-          xfbml: true,
-          version: "{api-version}", // 🔹 Esempio: 'v18.0'
-        });
-
-        FB.AppEvents.logPageView();
-      }
-      resolve();
-    };
-
-    let js,
-      fjs = document.getElementsByTagName("script")[0];
+    let js, fjs = document.getElementsByTagName("script")[0];
     js = document.createElement("script");
     js.id = "facebook-jssdk";
     js.src = "https://connect.facebook.net/en_US/sdk.js";
     fjs.parentNode.insertBefore(js, fjs);
+
+    js.onload = () => resolve(); // Risolvi quando l'SDK è caricato
   });
 };
 
@@ -53,7 +40,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
 
   useEffect(() => {
-    loadFacebookSDK(); // 🔹 Carica l'SDK di Facebook
+    loadFacebookSDK(); // Carica l'SDK di Facebook
 
     const checkRedirect = async () => {
       try {
@@ -72,8 +59,33 @@ const Login = () => {
       }
     };
 
-    checkRedirect(); // 🔹 Controlla il login con redirect
+    checkRedirect(); // Controlla il login con redirect
+
   }, [navigate]);
+
+  // Funzione per gestire lo stato di accesso
+  const statusChangeCallback = (response) => {
+    console.log("Facebook login status:", response);
+    if (response.status === "connected") {
+      console.log("User is logged in");
+      const { accessToken, userID } = response.authResponse;
+      console.log("Access Token:", accessToken);
+      console.log("User ID:", userID);
+      toast.success("Logged in with Facebook!");
+      setTimeout(() => navigate("/"), 2000);
+    } else {
+      console.log("User is not logged in");
+    }
+  };
+
+  // Funzione per verificare lo stato di login
+  const checkLoginState = () => {
+    if (window.FB) {
+      window.FB.getLoginStatus(function (response) {
+        statusChangeCallback(response); // Chiama la callback con la risposta
+      });
+    }
+  };
 
   // Login con email e password
   const emailLogin = async () => {
@@ -105,14 +117,12 @@ const Login = () => {
   // Login con Facebook
   const facebookLogin = async () => {
     try {
-      await loadFacebookSDK();
+      await loadFacebookSDK(); // Carica l'SDK di Facebook
       if (window.FB) {
         window.FB.login(
           (response) => {
             if (response.authResponse) {
-              console.log("Facebook login successful", response);
-              toast.success("Logged in successfully!");
-              setTimeout(() => navigate("/"), 2000);
+              statusChangeCallback(response); // Controlla lo stato di login
             } else {
               toast.error("Facebook login failed.");
             }
@@ -127,7 +137,6 @@ const Login = () => {
       toast.error(err.message || "An error occurred");
     }
   };
-  
 
   const gitLogin = async () => {
     try {
@@ -182,8 +191,8 @@ const Login = () => {
               By continuing, you agree to the Terms of Sale, Terms of Service, and Privacy Policy.
             </p>
 
-            <div onClick={googleLogin} className="mt-4 space-y-3">
-              <button className="border border-black w-full p-2 flex items-center justify-center rounded">
+            <div className="mt-4 space-y-3">
+              <button onClick={googleLogin} className="border border-black w-full p-2 flex items-center justify-center rounded">
                 <img src={google} className="w-5 h-5 mr-3" alt="Google logo"/>
                 <span className="font-bold">Continue with Google</span>
               </button>
