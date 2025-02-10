@@ -10,12 +10,70 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate, Link } from 'react-router-dom';
 
+const loadFacebookSDK = () => {
+  return new Promise((resolve) => {
+    if (document.getElementById('facebook-jssdk')) {
+      resolve();
+      return;
+    }
+    
+    window.fbAsyncInit = function () {
+      FB.init({
+        appId: "{your-app-id}", // Sostituisci con il tuo App ID di Facebook
+        cookie: true,
+        xfbml: true,
+        version: "{api-version}", // Esempio: 'v18.0'
+      });
+
+      FB.AppEvents.logPageView();
+      resolve();
+    };
+
+    let js,
+      fjs = document.getElementsByTagName("script")[0];
+    if (document.getElementById("facebook-jssdk")) return;
+    js = document.createElement("script");
+    js.id = "facebook-jssdk";
+    js.src = "https://connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  });
+};
+
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   useEffect(() => {
+    const loadFacebookSDK = () => {
+      return new Promise((resolve) => {
+        if (document.getElementById('facebook-jssdk')) {
+          resolve();
+          return;
+        }
+  
+        window.fbAsyncInit = function () {
+          FB.init({
+            appId: "{your-app-id}", // Sostituisci con il tuo App ID di Facebook
+            cookie: true,
+            xfbml: true,
+            version: "{api-version}", // Esempio: 'v18.0'
+          });
+  
+          FB.AppEvents.logPageView();
+          resolve();
+        };
+  
+        let js,
+          fjs = document.getElementsByTagName("script")[0];
+        if (document.getElementById("facebook-jssdk")) return;
+        js = document.createElement("script");
+        js.id = "facebook-jssdk";
+        js.src = "https://connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+      });
+    };
+  
     const checkRedirect = async () => {
       try {
         const result = await getRedirectResult(auth);
@@ -33,8 +91,10 @@ const Login = () => {
       }
     };
   
-    checkRedirect();
+    loadFacebookSDK(); // Carica Facebook SDK
+    checkRedirect(); // Controlla se c'è un redirect login attivo
   }, [navigate]);
+  
   
 
   const emailLogin = async () => {
@@ -68,15 +128,24 @@ const Login = () => {
 
   const facebookLogin = async () => {
     try {
-      if (auth.currentUser) {
-        await auth.signOut();
-      }
-      await signInWithRedirect(auth, facebookProvider);
+      await loadFacebookSDK(); 
+  
+      FB.login((response) => {
+        if (response.authResponse) {
+          console.log("Facebook login successful", response);
+          toast.success("Logged in successfully!");
+          setTimeout(() => navigate('/'), 2000);
+        } else {
+          toast.error("Facebook login failed.");
+        }
+      }, { scope: "email,public_profile" });
+  
     } catch (err) {
       console.error("Errore:", err);
       toast.error(err.message || "An error occurred");
     }
   };
+  
 
   const gitLogin = async () => {
     try {
