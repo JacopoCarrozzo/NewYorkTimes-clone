@@ -20,7 +20,11 @@ const Login = () => {
       try {
         const result = await getRedirectResult(auth);
         if (result) {
-          toast.success(`Logged in with ${result.providerId}`);
+          if (result.providerId === facebookProvider.providerId) {
+            toast.success("Logged in with Facebook");
+          } else if (result.providerId === gitProvider.providerId) {
+            toast.success("Logged in with GitHub");
+          }
           navigate("/");
         }
       } catch (err) {
@@ -30,7 +34,7 @@ const Login = () => {
     };
   
     checkRedirect();
-  }, [navigate]);  // ✅ Adesso è corretto
+  }, [navigate]);
   
 
   const emailLogin = async () => {
@@ -48,8 +52,11 @@ const Login = () => {
 
   const googleLogin = async () => {
     try {
+      if (auth.currentUser) {
+        await auth.signOut();
+      }
       await signInWithPopup(auth, googleProvider);
-      toast.success("LoggedIn successfully");
+      toast.success("Logged in successfully");
       setTimeout(() => {
         navigate('/');
       }, 2000);
@@ -61,10 +68,9 @@ const Login = () => {
 
   const facebookLogin = async () => {
     try {
-      localStorage.clear();
-      sessionStorage.clear();
-      await auth.signOut();
-      await auth.signOut();
+      if (auth.currentUser) {
+        await auth.signOut();
+      }
       await signInWithRedirect(auth, facebookProvider);
     } catch (err) {
       console.error("Errore:", err);
@@ -74,10 +80,9 @@ const Login = () => {
 
   const gitLogin = async () => {
     try {
-      localStorage.clear();
-      sessionStorage.clear();
-      await auth.signOut();
-      await auth.signOut();
+      if (auth.currentUser) {
+        await auth.signOut();
+      }
       await signInWithRedirect(auth, gitProvider);
     } catch (err) {
       console.error("Errore:", err);
