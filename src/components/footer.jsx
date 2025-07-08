@@ -7,12 +7,11 @@ const Footer = (props) => {
       <div>
         <hr />
         <hr className="mt-1" />
-        {/* Logo responsivo */}
+        
         <div className="flex justify-center sm:justify-start">
           <img src={TheNewYorkTimes} className="w-auto h-8 mt-3" alt="NYT Logo" />
         </div>
 
-        {/* Menu responsive */}
         <div className="flex flex-wrap justify-between p-4 text-center sm:text-left">
           <div className="w-full sm:w-auto mt-4 sm:mt-0">
             <h1 className="font-bold text-sm">NEWS</h1>
@@ -36,7 +35,6 @@ const Footer = (props) => {
           </div>
         </div>
 
-        {/* Copyright con testo responsivo */}
         <h1 className="mt-5 text-xs text-center text-gray-600 leading-5">
           © 2025 The New York Times Company |  
           <span className="block sm:inline"> Contact Us | Accessibility | Work with us | Advertising</span>
