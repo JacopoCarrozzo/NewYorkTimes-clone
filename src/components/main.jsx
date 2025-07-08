@@ -20,7 +20,7 @@ const Main = () => {
             const json = await response.json();
             setNews(json.results || []); 
         } catch (err) {
-            console.error("Errore nel recupero delle news:", err);
+            console.error("Error retrieving news:", err);
         }
     }, [menu]);
 
