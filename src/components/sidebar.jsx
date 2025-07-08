@@ -12,7 +12,6 @@ const Sidebar = ({ news, num, className }) => {
           state={{ data: article }} 
           className="block hover:bg-gray-100 p-2 rounded-lg transition"
         >
-          {/* Immagine responsiva */}
           {article.multimedia?.length > 0 ? (
             <img 
               className="w-full h-auto md:h-40 object-cover rounded-lg" 
@@ -23,7 +22,6 @@ const Sidebar = ({ news, num, className }) => {
             <p>Image not available</p>
           )}
 
-          {/* Titolo e testo */}
           <h1 className="text-lg md:text-2xl font-medium font-serif mt-4 md:mt-7">
             {article.title || "Title not available"}
           </h1>
