@@ -41,10 +41,8 @@ const Navbar = ({ setMenu, setSearch, searchRef }) => {
       <ToastContainer autoClose={3000} />
       <div className='w-full bg-white shadow-md block relative'>
 
-        {/* Navbar superiore */}
         <div className='flex items-center justify-between py-3 px-4 relative'>
 
-          {/* Menu & Search */}
           <div className='flex items-center gap-4 flex-1'> 
             <img src={menuIcon} className='w-6 h-6 cursor-pointer' onClick={() => setSideMenu(prev => !prev)} alt="Menu" />
             {sideMenu && 
@@ -92,16 +90,11 @@ const Navbar = ({ setMenu, setSearch, searchRef }) => {
             </div>
           </div>
 
-          {/* Sezione categorie */}
           <div className='hidden md:flex items-center gap-4 text-xs flex-1 justify-center'>
             <h1 onClick={() => setMenu('us')} className='cursor-pointer'>U.S.</h1>
             <h1 onClick={() => setMenu('world')} className='cursor-pointer'>INTERNATIONAL</h1>
-            <h1 onClick={() => setMenu('world')} className='cursor-pointer'>CANADA</h1>
-            <h1 onClick={() => setMenu('world')} className='cursor-pointer'>ESPANOL</h1>
-            <h1 onClick={() => setMenu('world')} className='cursor-pointer'>CINA</h1>
           </div>
 
-          {/* Pulsante Log In */}
           <div className="flex-1 flex justify-end">
             {auth?.currentUser?.displayName || auth?.currentUser?.email ? (
               <button className='ml-96 text-xs' onClick={logout}>LOG OUT</button>
@@ -117,15 +110,12 @@ const Navbar = ({ setMenu, setSearch, searchRef }) => {
 
         <hr className='border-t border-gray-300 mt-2 md:hidden' />
 
-        {/* Seconda riga con data e logo */}
         <div className='relative flex items-center px-4 mt-2'>
-          {/* Data e "Today's Paper" sotto */}
           <div className='text-left'>
             <h1 className='font-bold text-xs'>{moment(new Date()).format("dddd, MMMM D, YYYY")}</h1>
             <h1 className='text-gray-500 text-xs cursor-pointer'>Today's Paper</h1>
           </div>
 
-          {/* Logo */}
           <div className='absolute left-1/2 transform -translate-x-1/2 hidden sm:hidden md:block'>
             <img src={TheNewYorkTimes} className='w-48 md:w-96 h-auto' alt="The New York Times Logo" />
           </div>
@@ -134,11 +124,9 @@ const Navbar = ({ setMenu, setSearch, searchRef }) => {
             <img src={TheNewYorkTimes} className='w-48 md:w-96 h-auto mt-[-70px]' alt="The New York Times Logo" />
           </div>
 
-          {/* Spazio vuoto per mantenere il bilanciamento */}
           <div className='w-32'></div>
         </div>
 
-        {/* Menu orizzontale */}
         <div className='hidden md:block mt-3'>
           <hr className='border-t border-gray-300' />
           <div className="flex flex-wrap justify-center gap-4 text-sm mt-3 md:gap-4 md:text-xs md:flex">
