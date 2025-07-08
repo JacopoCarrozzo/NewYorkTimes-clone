@@ -45,21 +45,3 @@ To get the application running locally, follow these simple steps:
     ```
 
 The application will be available in your browser at `http://localhost:3000`.
-
-## Contributing
-
-Feel free to contribute to this project! If you find a bug, have a suggestion for a new feature, or want to improve the code, you can:
-
-* Open an [Issue](https://github.com/JacopoLoco/NewYorkTimes-clone/issues) to report bugs or propose new ideas.
-* Submit a [Pull Request](https://github.com/JacopoLoco/NewYorkTimes-clone/pulls) with your improvements.
-
-Please ensure to follow good coding practices and test your changes thoroughly.
-
-## License
-
-This project is licensed under the MIT License. For more details, see the `LICENSE` file (if present in your repository).
-
-## Author
-
-* **JacopoLoco** - [GitHub Profile](https://github.com/JacopoLoco)
-* **Project Homepage:** [https://JacopoLoco.github.io/NewYorkTimes-clone](https://JacopoLoco.github.io/NewYorkTimes-clone)
