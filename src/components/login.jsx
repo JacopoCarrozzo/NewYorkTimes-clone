@@ -1,4 +1,3 @@
-/* global FB */
 import React, { useEffect, useState } from "react";
 import facebook from "../images/facebook.png";
 import google from "../images/google.png";
@@ -16,7 +15,6 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate, Link } from "react-router-dom";
 
-// Funzione per caricare l'SDK di Facebook
 const loadFacebookSDK = () => {
   return new Promise((resolve) => {
     if (document.getElementById("facebook-jssdk")) {
@@ -30,7 +28,7 @@ const loadFacebookSDK = () => {
     js.src = "https://connect.facebook.net/en_US/sdk.js";
     fjs.parentNode.insertBefore(js, fjs);
 
-    js.onload = () => resolve(); // Risolvi quando l'SDK è caricato
+    js.onload = () => resolve(); 
   });
 };
 
@@ -40,7 +38,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
 
   useEffect(() => {
-    loadFacebookSDK(); // Carica l'SDK di Facebook
+    loadFacebookSDK();
 
     const checkRedirect = async () => {
       try {
@@ -59,11 +57,10 @@ const Login = () => {
       }
     };
 
-    checkRedirect(); // Controlla il login con redirect
+    checkRedirect();
 
   }, [navigate]);
 
-  // Funzione per gestire lo stato di accesso
   const statusChangeCallback = (response) => {
     console.log("Facebook login status:", response);
     if (response.status === "connected") {
@@ -78,16 +75,14 @@ const Login = () => {
     }
   };
 
-  // Funzione per verificare lo stato di login
   const checkLoginState = () => {
     if (window.FB) {
       window.FB.getLoginStatus(function (response) {
-        statusChangeCallback(response); // Chiama la callback con la risposta
+        statusChangeCallback(response);
       });
     }
   };
 
-  // Login con email e password
   const emailLogin = async () => {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
@@ -99,7 +94,6 @@ const Login = () => {
     }
   };
 
-  // Login con Google
   const googleLogin = async () => {
     try {
       if (auth.currentUser) {
@@ -114,15 +108,14 @@ const Login = () => {
     }
   };
 
-  // Login con Facebook
   const facebookLogin = async () => {
     try {
-      await loadFacebookSDK(); // Carica l'SDK di Facebook
+      await loadFacebookSDK();
       if (window.FB) {
         window.FB.login(
           (response) => {
             if (response.authResponse) {
-              statusChangeCallback(response); // Controlla lo stato di login
+              statusChangeCallback(response); 
             } else {
               toast.error("Facebook login failed.");
             }
@@ -175,10 +168,10 @@ const Login = () => {
 
             <div className="mt-6">
               <label className="block font-bold text-base">Email Address</label>
-              <input onChange={(e) => setEmail(e.target.value)} type="email" className="w-full p-2 border border-black rounded mt-2" placeholder="Enter your email" />
+              <input onChange={(e) => setEmail(e.target.value)} type="email" className="w-full p-2 border border-black rounded mt-2" placeholder="Enter your email"/>
         
               <label className="block font-bold text-base">Password</label>
-              <input onChange={(e) => setPassword(e.target.value)} type="password" className="w-full p-2 border border-black rounded mt-2" placeholder="Enter your password" />
+              <input onChange={(e) => setPassword(e.target.value)} type="password" className="w-full p-2 border border-black rounded mt-2" placeholder="Enter your password"/>
             </div>
 
             <button onClick={emailLogin} className="bg-black text-white font-semibold w-full p-2 mt-4 rounded hover:bg-gray-800 transition">
