@@ -38,6 +38,10 @@ To get the application running locally, follow these simple steps:
     ```bash
     npm install
     ```
+4.  **Start the app:**
+    ```bash
+    npm start
+    ```
 
 4.  **Start the application in development mode:**
     ```bash
