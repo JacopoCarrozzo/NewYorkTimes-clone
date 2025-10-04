@@ -1,7 +1,6 @@
 {
   "name": "nyt-clone",
   "version": "0.1.0",
-  "homepage": "https://JacopoLoco.github.io/NewYorkTimes-clone",
   "private": false,
   "dependencies": {
     "cra-template": "1.2.0",
